@@ -51,6 +51,74 @@
         tr:nth-child(3) td {
             border-bottom: none;
         }
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            table {
+                margin: 20px auto;
+                transform: scale(0.8);
+            }
+            th, td {
+                width: 80px;
+                height: 80px;
+            }
+            button {
+                width: 80px;
+                height: 80px;
+                font-size: 40px;
+            }
+            #y, #c {
+                width: 80px;
+                height: 40px;
+                font-size: 16px;
+                margin: 5px;
+            }
+            #restart {
+                width: 80px;
+                height: 40px;
+                font-size: 16px;
+                margin: 15px auto;
+            }
+            h2 {
+                font-size: 18px;
+                margin: 10px 0;
+            }
+            p {
+                font-size: 35px;
+            }
+        }
+        @media screen and (max-width: 480px) {
+            table {
+                transform: scale(0.7);
+                margin: 10px auto;
+            }
+            th, td {
+                width: 70px;
+                height: 70px;
+            }
+            button {
+                width: 70px;
+                height: 70px;
+                font-size: 35px;
+            }
+            #y, #c {
+                width: 70px;
+                height: 35px;
+                font-size: 14px;
+            }
+            #restart {
+                width: 70px;
+                height: 35px;
+                font-size: 14px;
+            }
+            h2 {
+                font-size: 16px;
+            }
+            p {
+                font-size: 30px;
+            }
+        }
         #y, #c {
             background-color: #000;
             color: #fff;
@@ -58,19 +126,30 @@
             height: 50px;
             font-size: 20px;
         }
+        #restart {
+            color: #fff;
+            background-color: #000;
+            width: 100px;
+            height: 50px;
+            font-size: 20px;
+            margin-top: 20px; 
+        }
         button {
             background: none;
             border: none;
             width: 100px;
             height: 100px;
             font-size: 50px;
-            cursor: pointer;
-        }
+        }  
     </style>
 </head>
 <body>
     <h2>who's got the 1st turn?</h2>
     <button id="y" onclick="alert('go ahead')">you</button> <button id="c" onclick="firstplayer()">computer</button>
+    <h2 id="x'win" style="display:none;">x is a winner</h2>
+    <h2 id="o'win" style="display:none;">o is a winner</h2>
+    <h2 id="draw" style="display:none;">it's a draw</h2>
+    <button id="restart" onclick="restart()" style="display:none;">restart</button>
     <table>
         <tr>
             <td><button onclick="corner1()" id="00"></button><p id="X00">X</p><p id="O00">O</p></td>
@@ -91,7 +170,6 @@
     <script>
         let count = 0;
         let first = false;
-        let victory = false;
         let edge1x = false;
         let edge2x = false;
         let edge3x = false;
@@ -241,23 +319,192 @@
         }
         function Victory() {
             if(corner1x&&edge1x&&corner2x||corner3x&&edge4x&&corner4x||edge2x&&centerx&&edge3x||corner1x&&edge2x&&corner3x||corner2x&&edge3x&&corner4x||edge1x&&centerx&&edge4x||corner1x&&centerx&&corner4x||corner2x&&centerx&&corner3x){
-                alert("X is the winner");
-                victory = true;
-                location.reload();
+                document.getElementById("x'win").style.display="block";
+                document.getElementById("restart").style.display="block";
             } else if(corner1o&&edge1o&&corner2o||corner3o&&edge4o&&corner4o||edge2o&&centero&&edge3o||corner1o&&edge2o&&corner3o||corner2o&&edge3o&&corner4o||edge1o&&centero&&edge4o||corner1o&&centero&&corner4o||corner2o&&centero&&corner3o){
-                alert("O is the winner");
-                victory = true;
-                location.reload();
+                document.getElementById("o'win").style.display="block";
+                document.getElementById("restart").style.display="block";
             }else if(count==9){
-                alert("it's a tie");
-                location.reload();
+                document.getElementById("draw").style.display="block";
+                document.getElementById("restart").style.display="block";
             }
             if(first&&count%2==0){
+                if((edge1o&&corner2o || edge2o&&corner3o || corner4o&&centero)&&!corner1x&&!corner1o){
+                    corner1();
+                }
+                else if((corner1o&&corner2o || centero&&edge4o)&&!edge1x&&!edge1o){
+                    edge1();
+                }
+                else if((corner1o&&edge1o || edge3o&&corner4o || corner3o&&centero)&&!corner2x&&!corner2o){
+                    corner2();
+                }
+                else if((corner3o&&corner1o || centero&&edge3o)&&!edge2x&&!edge2o){
+                    edge2();
+                }
+                else if((edge1o&&edge4o || corner1o&&corner4o || corner2o&&corner3o || edge2o&&edge4o)&&!centerx&&!centero){
+                    center();
+                }
+                else if((centero&&edge2o || corner4o&&corner2o)&&!edge3x&&!edge3o){
+                    edge3();
+                }
+                else if((corner4o&&corner3o || edge1o&&centero)&&!edge4x&&!edge4o){
+                    edge4();
+                }
+                else if((edge4o&&corner4o || edge2o&&corner1o || centero&&corner2o)&&!corner3x&&!corner3o){
+                    corner3();
+                }
+                else if((edge4o&&corner3o || edge3o&&corner2o || centero&&corner1o)&&!corner4x&&!corner4o){
+                    corner4();
+                }
+                else if((edge1x&&corner2x || edge2x&&corner3x || corner4x&&centerx)&&!corner1o&&!corner1x){
+                    corner1();
+                }
+                else if((corner1x&&corner2x || centerx&&edge4x)&&!edge1o&&!edge1x){
+                    edge1();
+                }
+                else if((corner1x&&edge1x || edge3x&&corner4x || corner3x&&centerx)&&!corner2o&&!corner2x){
+                    corner2();
+                }
+                else if((corner3x&&corner1x || centerx&&edge3x)&&!edge2o&&!edge2x){
+                    edge2();
+                }
+                else if((edge1x&&edge4x || corner1x&&corner4x || corner2x&&corner3x || edge2x&&edge4x)&&!centerx&&!centero){
+                    center();
+                }
+                else if((centerx&&edge2x || corner4x&&corner2x)&&!edge3o&&!edge3x){
+                    edge3();
+                }
+                else if((corner4x&&corner3x || edge1x&&centerx)&&!edge4o&&!edge4x){
+                    edge4();
+                }
+                else if((edge4x&&corner4x || edge2x&&corner1x || centerx&&corner2x)&&!corner3o&&!corner3x){
+                    corner3();
+                }
+                else if((edge4x&&corner3x || edge3x&&corner2x || centerx&&corner1x)&&!corner4o&&!corner4x){
+                    corner4();
+                }
+                else{
+                    randomechoice();
+                }
+            }
+            if(!first&&count==1&&!centero){
+                center();
+            }
+            else if(!first&&count==1){
                 randomechoice();
             }
             if(!first&&count%2==1){
-                randomechoice();
+                if((edge1x&&corner2x || edge2x&&corner3x || corner4x&&centerx)&&!corner1o&&!corner1x){
+                    corner1();
+                }
+                else if((corner1x&&corner2x || centerx&&edge4x)&&!edge1o&&!edge1x){
+                    edge1();
+                }
+                else if((corner1x&&edge1x || edge3x&&corner4x || corner3x&&centerx)&&!corner2o&&!corner2x){
+                    corner2();
+                }
+                else if((corner3x&&corner1x || centerx&&edge3x)&&!edge2o&&!edge2x){
+                    edge2();
+                }
+                else if((edge1x&&edge4x || corner1x&&corner4x || corner2x&&corner3x || edge2x&&edge4x)&&!centerx&&!centero){
+                    center();
+                }
+                else if((centerx&&edge2x || corner4x&&corner2x)&&!edge3o&&!edge3x){
+                    edge3();
+                }
+                else if((corner4x&&corner3x || edge1x&&centerx)&&!edge4o&&!edge4x){
+                    edge4();
+                }
+                else if((edge4x&&corner4x || edge2x&&corner1x || centerx&&corner2x)&&!corner3o&&!corner3x){
+                    corner3();
+                }
+                else if((edge4x&&corner3x || edge3x&&corner2x || centerx&&corner1x)&&!corner4o&&!corner4x){
+                    corner4();
+                }
+                else if((edge1o&&corner2o || edge2o&&corner3o || corner4o&&centero)&&!corner1x&&!corner1o){
+                    corner1();
+                }
+                else if((corner1o&&corner2o || centero&&edge4o)&&!edge1x&&!edge1o){
+                    edge1();
+                }
+                else if((corner1o&&edge1o || edge3o&&corner4o || corner3o&&centero)&&!corner2x&&!corner2o){
+                    corner2();
+                }
+                else if((corner3o&&corner1o || centero&&edge3o)&&!edge2x&&!edge2o){
+                    edge2();
+                }
+                else if((edge1o&&edge4o || corner1o&&corner4o || corner2o&&corner3o || edge2o&&edge4o)&&!centerx&&!centero){
+                    center();
+                }
+                else if((centero&&edge2o || corner4o&&corner2o)&&!edge3x&&!edge3o){
+                    edge3();
+                }
+                else if((corner4o&&corner3o || edge1o&&centero)&&!edge4x&&!edge4o){
+                    edge4();
+                }
+                else if((edge4o&&corner4o || edge2o&&corner1o || centero&&corner2o)&&!corner3x&&!corner3o){
+                    corner3();
+                }
+                else if((edge4o&&corner3o || edge3o&&corner2o || centero&&corner1o)&&!corner4x&&!corner4o){
+                    corner4();
+                }
+                else{
+                    randomechoice();
+                }
             }
+        }
+        function restart() {
+            document.getElementById("x'win").style.display="none";
+            document.getElementById("o'win").style.display="none";
+            document.getElementById("draw").style.display="none";
+            document.getElementById("restart").style.display="none";
+            count = 0;
+            first = false;
+            edge1x = false;
+            edge2x = false;
+            edge3x = false;
+            edge4x = false;
+            corner1x = false;
+            corner2x = false;
+            corner3x = false;
+            corner4x = false;
+            centerx = false;
+            edge1o = false;
+            edge2o = false;
+            edge3o = false;
+            edge4o = false;
+            corner1o = false;
+            corner2o = false;
+            corner3o = false;
+            corner4o = false;
+            centero = false;
+            document.getElementById("00").style.display="block";
+            document.getElementById("01").style.display="block";
+            document.getElementById("02").style.display="block";
+            document.getElementById("10").style.display="block";
+            document.getElementById("11").style.display="block";
+            document.getElementById("12").style.display="block";
+            document.getElementById("20").style.display="block";
+            document.getElementById("21").style.display="block";
+            document.getElementById("22").style.display="block";
+            document.getElementById("X00").style.display="none";
+            document.getElementById("X01").style.display="none";
+            document.getElementById("X02").style.display="none";
+            document.getElementById("X10").style.display="none";
+            document.getElementById("X11").style.display="none";
+            document.getElementById("X12").style.display="none";
+            document.getElementById("X20").style.display="none";
+            document.getElementById("X21").style.display="none";
+            document.getElementById("X22").style.display="none";
+            document.getElementById("O00").style.display="none";
+            document.getElementById("O01").style.display="none";
+            document.getElementById("O02").style.display="none";
+            document.getElementById("O10").style.display="none";
+            document.getElementById("O11").style.display="none";
+            document.getElementById("O12").style.display="none";
+            document.getElementById("O20").style.display="none";
+            document.getElementById("O21").style.display="none";
+            document.getElementById("O22").style.display="none";
         }
     </script>
 </body>
