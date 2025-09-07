@@ -12,135 +12,100 @@
             text-align: center;
             margin: 0;
             padding: 0;
-        }        
+        }
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        th, td {
-            border-collapse: collapse;
-            margin-top: 50px;
+        #gameboard {
+            margin: 50px auto;
+            border-spacing: 0;
+        }
+        #gameboard td {
             width: 100px;
             height: 100px;
-        }
-        p {
-            display: none;
-            font-size: 50px;
             text-align: center;
-            margin-top: -10px;
-            margin-bottom: -10px;
-        }
-        table {
-            margin: 50px auto;
-            border-collapse: separate;
-            border-spacing: 3px;
-        }
-        td {
+            vertical-align: middle;
+            font-size: 60px;
+            font-weight: bold;
+            cursor: pointer;
             position: relative;
         }
-        td:nth-child(1), td:nth-child(2), td:nth-child(3) {
-            border-right: 5px solid #333;
-        }
-        td:nth-child(3) {
-            border-right: none;
-        }
-        tr:nth-child(1) td, tr:nth-child(2) td {
+        #gameboard tr:not(:last-child) td {
             border-bottom: 5px solid #333;
         }
-        tr:nth-child(3) td {
-            border-bottom: none;
+        #gameboard td:not(:last-child) {
+            border-right: 5px solid #333;
         }
-        @media screen and (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            table {
-                margin: 20px auto;
-                transform: scale(0.8);
-            }
-            th, td {
-                width: 80px;
-                height: 80px;
-            }
-            button {
-                width: 80px;
-                height: 80px;
-                font-size: 40px;
-            }
-            #y, #c {
-                width: 80px;
-                height: 40px;
-                font-size: 16px;
-                margin: 5px;
-            }
-            #restart {
-                width: 80px;
-                height: 40px;
-                font-size: 16px;
-                margin: 15px auto;
-            }
-            h2 {
-                font-size: 18px;
-                margin: 10px 0;
-            }
-            p {
-                font-size: 35px;
-            }
+        #gameboard button {
+            width: 100%;
+            height: 100%;
+            font-size: 60px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
         }
-        @media screen and (max-width: 480px) {
-            table {
-                transform: scale(0.7);
-                margin: 10px auto;
-            }
-            th, td {
-                width: 70px;
-                height: 70px;
-            }
-            button {
-                width: 70px;
-                height: 70px;
-                font-size: 35px;
-            }
-            #y, #c {
-                width: 70px;
-                height: 35px;
-                font-size: 14px;
-            }
-            #restart {
-                width: 70px;
-                height: 35px;
-                font-size: 14px;
-            }
-            h2 {
-                font-size: 16px;
-            }
-            p {
-                font-size: 30px;
-            }
+        #gameboard p {
+            display: none;
+            margin: 0;
+            font-size: 60px;
+            line-height: 100px;
+        }
+        #messages {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #messages h2 {
+            margin: 10px 0;
+        }
+        #restart {
+            display: none;
+            margin: 20px auto 0;
+            display: block;
+            background-color: #000;
+            color: #fff;
+            width: 120px;
+            height: 50px;
+            font-size: 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #restart:hover {
+            background-color: #333;
         }
         #y, #c {
             background-color: #000;
             color: #fff;
-            width: 100px;
+            width: 120px;
             height: 50px;
             font-size: 20px;
-        }
-        #restart {
-            color: #fff;
-            background-color: #000;
-            width: 100px;
-            height: 50px;
-            font-size: 20px;
-            margin-top: 20px; 
-        }
-        button {
-            background: none;
+            border-radius: 8px;
             border: none;
-            width: 100px;
-            height: 100px;
-            font-size: 50px;
-        }  
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #y:hover, #c:hover {
+            background-color: #333;
+        }
+        #info {
+            border: 2px solid #000;
+            margin: 20px auto;
+            width: 200px;
+            border-collapse: collapse;
+        }
+        #info td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: center;
+        }
+        #info p {
+            display: block;
+            font-size: 20px;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -150,7 +115,7 @@
     <h2 id="o'win" style="display:none;">o is a winner</h2>
     <h2 id="draw" style="display:none;">it's a draw</h2>
     <button id="restart" onclick="restart()" style="display:none;">restart</button>
-    <table>
+    <table id="gameboard">
         <tr>
             <td><button onclick="corner1()" id="00"></button><p id="X00">X</p><p id="O00">O</p></td>
             <td><button onclick="edge1()" id="01"></button><p id="X01">X</p><p id="O01">O</p></td>
@@ -167,8 +132,12 @@
             <td><button onclick="corner4()" id="22"></button><p id="X22">X</p><p id="O22">O</p></td> 
         </tr>
     </table>
+    <table id="info"><tr><td><p>you</p></td><td><p>computer</p></td></tr><tr><td><p id="player">0</p></td><td><p id="computer">0</p></td></tr></table>
     <script>
         let count = 0;
+        let player = 0;
+        let computer = 0;
+        let victory = false;
         let first = false;
         let edge1x = false;
         let edge2x = false;
@@ -318,17 +287,34 @@
         randomFunc();
         }
         function Victory() {
-            if(corner1x&&edge1x&&corner2x||corner3x&&edge4x&&corner4x||edge2x&&centerx&&edge3x||corner1x&&edge2x&&corner3x||corner2x&&edge3x&&corner4x||edge1x&&centerx&&edge4x||corner1x&&centerx&&corner4x||corner2x&&centerx&&corner3x){
-                document.getElementById("x'win").style.display="block";
+            if(corner1x&&edge1x&&corner2x||corner3x&&edge4x&&corner4x||edge2x&&centerx&&edge3x||corner1x&&edge2x&&corner3x||corner2x&&edge3x&&corner4x||edge1x&&centerx&&edge4x||corner1x&&centerx&&corner4x||corner2x&&centerx&&corner3x){  
+                document.getElementById("x'win").style.display="block";  
+                document.getElementById("restart").style.display="block"; 
+                victory = true;  
+                if(!first){ 
+                computer ++; 
+                    document.getElementById("computer").innerHTML=computer;
+                } else {  
+                player ++;
+                    document.getElementById("player").innerHTML=player;  
+                }  
+            } else if(corner1o&&edge1o&&corner2o||corner3o&&edge4o&&corner4o||edge2o&&centero&&edge3o||corner1o&&edge2o&&corner3o||corner2o&&edge3o&&corner4o||edge1o&&centero&&edge4o||corner1o&&centero&&corner4o||corner2o&&centero&&corner3o){  
+                document.getElementById("o'win").style.display="block";  
                 document.getElementById("restart").style.display="block";
-            } else if(corner1o&&edge1o&&corner2o||corner3o&&edge4o&&corner4o||edge2o&&centero&&edge3o||corner1o&&edge2o&&corner3o||corner2o&&edge3o&&corner4o||edge1o&&centero&&edge4o||corner1o&&centero&&corner4o||corner2o&&centero&&corner3o){
-                document.getElementById("o'win").style.display="block";
-                document.getElementById("restart").style.display="block";
+                victory = true;  
+                if(first){
+                    computer ++;
+                    document.getElementById("computer").innerHTML=computer;
+                }
+                else{
+                    player ++;
+                    document.getElementById("player").innerHTML=player;
+                }
             }else if(count==9){
                 document.getElementById("draw").style.display="block";
                 document.getElementById("restart").style.display="block";
             }
-            if(first&&count%2==0){
+            if(first&&count%2==0&&!victory){
                 if((edge1o&&corner2o || edge2o&&corner3o || corner4o&&centero)&&!corner1x&&!corner1o){
                     corner1();
                 }
@@ -393,7 +379,7 @@
             else if(!first&&count==1){
                 randomechoice();
             }
-            if(!first&&count%2==1){
+            if(!first&&count%2==1&&!victory){
                 if((edge1x&&corner2x || edge2x&&corner3x || corner4x&&centerx)&&!corner1o&&!corner1x){
                     corner1();
                 }
@@ -459,6 +445,7 @@
             document.getElementById("draw").style.display="none";
             document.getElementById("restart").style.display="none";
             count = 0;
+            victory = false;
             first = false;
             edge1x = false;
             edge2x = false;
@@ -509,3 +496,4 @@
     </script>
 </body>
 </html>
+
