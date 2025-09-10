@@ -5,18 +5,11 @@
     <title>A-mine</title>
     <style>
         body {
-            background: linear-gradient(45deg, #6ee5e9, #4088da, #171ac7, #400a97, #961dce, #e42172);
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
             font-family: Arial, sans-serif;
-            text-align: center;
+            background-color: #bebcae;
             margin: 0;
-            padding: 0;
-        }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            padding: 20px;
+            text-align: center;
         }
         #gameboard {
             margin: 50px auto;
@@ -62,7 +55,6 @@
         #restart {
             display: none;
             margin: 20px auto 0;
-            display: block;
             background-color: #000;
             color: #fff;
             width: 120px;
@@ -72,23 +64,14 @@
             border: none;
             cursor: pointer;
             transition: 0.3s;
-        }
-        #restart:hover {
-            background-color: #333;
         }
         #y, #c {
-            background-color: #000;
-            color: #fff;
-            width: 120px;
-            height: 50px;
+            background-color: #00000031;
             font-size: 20px;
             border-radius: 8px;
             border: none;
             cursor: pointer;
             transition: 0.3s;
-        }
-        #y:hover, #c:hover {
-            background-color: #333;
         }
         #info {
             border: 2px solid #000;
@@ -106,30 +89,50 @@
             font-size: 20px;
             margin: 5px 0;
         }
+        #X00, #X01, #X02, #X10, #X11, #X12, #X20, #X21, #X22{
+            color: #ff0000;
+        }
+        #O00, #O01, #O02, #O10, #O11, #O12, #O20, #O21, #O22{
+            color: #0000ff;
+        }
+        #yx p, #yo p {
+            display: inline;
+        }
+        #yc p {
+            display: inline;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
-    <h2>who's got the 1st turn?</h2>
-    <button id="y" onclick="alert('go ahead')">you</button> <button id="c" onclick="firstplayer()">computer</button>
-    <h2 id="x'win" style="display:none;">x is a winner</h2>
-    <h2 id="o'win" style="display:none;">o is a winner</h2>
-    <h2 id="draw" style="display:none;">it's a draw</h2>
+    <div id="messages">
+        <h2 id="yc">wanna paly as <button id="y" style="color: #0000ff;" onclick="notfirstplayer()">X</button> or <button id="c" style="color: #ff0000;" onclick="firstplayer()">O</button></h2>
+        <hr style="border: 1px solid #38583a; width: 200px; margin: 10px auto;">
+        <h2 id="yx" style="display:block;">you're playing as <p style="color: #0000ff;">X</p> [first player]</h2>
+        <h2 id="yo" style="display:none;">you're playing as <p style="color: #ff0000;">O</p> [seconed player]</h2><br>
+        <h2 id="c'win'o" style="color: #0000ff; display:none;">computer win</h2>
+        <h2 id="c'win'x" style="color: #ff0000; display:none;">computer win</h2>
+        <h2 id="y'win'o" style="color: #0000ff; display:none;">you win</h2>
+        <h2 id="y'win'x" style="color: #ff0000; display:none;">you win</h2>
+        <h2 id="draw" style="color: #000000; display:none;">draw</h2>
+        <button id="restart" onclick="restart()" style="display:none;">restart</button>
+    </div>
     <button id="restart" onclick="restart()" style="display:none;">restart</button>
     <table id="gameboard">
         <tr>
-            <td><button onclick="corner1()" id="00"></button><p id="X00">X</p><p id="O00">O</p></td>
-            <td><button onclick="edge1()" id="01"></button><p id="X01">X</p><p id="O01">O</p></td>
-            <td><button onclick="corner2()" id="02"></button><p id="X02">X</p><p id="O02">O</p></td>
+            <td><button onclick="corner1()" id="00"></button><p id="X00">O</p><p id="O00">X</p></td>
+            <td><button onclick="edge1()" id="01"></button><p id="X01">O</p><p id="O01">X</p></td>
+            <td><button onclick="corner2()" id="02"></button><p id="X02">O</p><p id="O02">X</p></td>
         </tr>
         <tr>
-            <td><button onclick="edge2()" id="10"></button><p id="X10">X</p><p id="O10">O</p></td> 
-            <td><button onclick="center()" id="11"></button><p id="X11">X</p><p id="O11">O</p></td> 
-            <td><button onclick="edge3()" id="12"></button><p id="X12">X</p><p id="O12">O</p></td> 
+            <td><button onclick="edge2()" id="10"></button><p id="X10">O</p><p id="O10">X</p></td> 
+            <td><button onclick="center()" id="11"></button><p id="X11">O</p><p id="O11">X</p></td> 
+            <td><button onclick="edge3()" id="12"></button><p id="X12">O</p><p id="O12">X</p></td> 
         </tr>
         <tr> 
-            <td><button onclick="corner3()" id="20"></button><p id="X20">X</p><p id="O20">O</p></td>
-            <td><button onclick="edge4()" id="21"></button><p id="X21">X</p><p id="O21">O</p></td> 
-            <td><button onclick="corner4()" id="22"></button><p id="X22">X</p><p id="O22">O</p></td> 
+            <td><button onclick="corner3()" id="20"></button><p id="X20">O</p><p id="O20">X</p></td>
+            <td><button onclick="edge4()" id="21"></button><p id="X21">O</p><p id="O21">X</p></td> 
+            <td><button onclick="corner4()" id="22"></button><p id="X22">O</p><p id="O22">X</p></td> 
         </tr>
     </table>
     <table id="info"><tr><td><p>you</p></td><td><p>computer</p></td></tr><tr><td><p id="player">0</p></td><td><p id="computer">0</p></td></tr></table>
@@ -266,8 +269,20 @@
             Victory();
         }
         function firstplayer() {
-            first = true;
-            randomechoice();
+            if(count===0){
+                first = true;
+                randomechoice();
+                document.getElementById("yx").style.display="none";
+                document.getElementById("yo").style.display="block";
+            }
+        }
+        function notfirstplayer() {
+            if(count===1){
+                first = false;
+                document.getElementById("yx").style.display="block";
+                document.getElementById("yo").style.display="none";
+                restart();
+            }
         }
         function randomechoice() {
         let choices = [corner1, edge1, corner2, edge2, center, edge3, corner3, edge4, corner4];
@@ -287,28 +302,48 @@
         randomFunc();
         }
         function Victory() {
-            if(corner1x&&edge1x&&corner2x||corner3x&&edge4x&&corner4x||edge2x&&centerx&&edge3x||corner1x&&edge2x&&corner3x||corner2x&&edge3x&&corner4x||edge1x&&centerx&&edge4x||corner1x&&centerx&&corner4x||corner2x&&centerx&&corner3x){  
-                document.getElementById("x'win").style.display="block";  
-                document.getElementById("restart").style.display="block"; 
+            if(corner1x&&edge1x&&corner2x||corner3x&&edge4x&&corner4x||edge2x&&centerx&&edge3x||corner1x&&edge2x&&corner3x||corner2x&&edge3x&&corner4x||edge1x&&centerx&&edge4x||corner1x&&centerx&&corner4x||corner2x&&centerx&&corner3x){    
+                document.getElementById("restart").style.display="block";
+                document.getElementById("00").style.display="none";
+                document.getElementById("01").style.display="none";
+                document.getElementById("02").style.display="none";
+                document.getElementById("10").style.display="none";
+                document.getElementById("11").style.display="none";
+                document.getElementById("12").style.display="none";
+                document.getElementById("20").style.display="none";
+                document.getElementById("21").style.display="none";
+                document.getElementById("22").style.display="none"; 
                 victory = true;  
                 if(!first){ 
-                computer ++; 
+                    computer ++; 
                     document.getElementById("computer").innerHTML=computer;
+                    document.getElementById("c'win'x").style.display="block";
                 } else {  
-                player ++;
+                    player ++;
                     document.getElementById("player").innerHTML=player;  
+                    document.getElementById("y'win'x").style.display="block";
                 }  
             } else if(corner1o&&edge1o&&corner2o||corner3o&&edge4o&&corner4o||edge2o&&centero&&edge3o||corner1o&&edge2o&&corner3o||corner2o&&edge3o&&corner4o||edge1o&&centero&&edge4o||corner1o&&centero&&corner4o||corner2o&&centero&&corner3o){  
-                document.getElementById("o'win").style.display="block";  
                 document.getElementById("restart").style.display="block";
+                document.getElementById("00").style.display="none";
+                document.getElementById("01").style.display="none";
+                document.getElementById("02").style.display="none";
+                document.getElementById("10").style.display="none";
+                document.getElementById("11").style.display="none";
+                document.getElementById("12").style.display="none";
+                document.getElementById("20").style.display="none";
+                document.getElementById("21").style.display="none";
+                document.getElementById("22").style.display="none";
                 victory = true;  
                 if(first){
                     computer ++;
                     document.getElementById("computer").innerHTML=computer;
+                    document.getElementById("c'win'o").style.display="block";
                 }
                 else{
                     player ++;
                     document.getElementById("player").innerHTML=player;
+                    document.getElementById("y'win'o").style.display="block";
                 }
             }else if(count==9){
                 document.getElementById("draw").style.display="block";
@@ -440,13 +475,14 @@
             }
         }
         function restart() {
-            document.getElementById("x'win").style.display="none";
-            document.getElementById("o'win").style.display="none";
+            document.getElementById("c'win'x").style.display="none";
+            document.getElementById("c'win'o").style.display="none";
+            document.getElementById("y'win'x").style.display="none";
+            document.getElementById("y'win'o").style.display="none";
             document.getElementById("draw").style.display="none";
             document.getElementById("restart").style.display="none";
             count = 0;
             victory = false;
-            first = false;
             edge1x = false;
             edge2x = false;
             edge3x = false;
@@ -492,8 +528,10 @@
             document.getElementById("O20").style.display="none";
             document.getElementById("O21").style.display="none";
             document.getElementById("O22").style.display="none";
+            if(first){
+                firstplayer();
+            }
         }
     </script>
 </body>
 </html>
-
