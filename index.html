@@ -73,6 +73,20 @@
             cursor: pointer;
             transition: 0.3s;
         }
+        #theme1, #theme2 {
+            position: fixed;
+            top: 20px;            
+            left: 20px;
+            z-index: 1000;
+            background-color: #000000;
+            color: #fff;
+            font-size: 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 10px;
+        }
         #info {
             border: 2px solid #000;
             margin: 20px auto;
@@ -105,8 +119,9 @@
     </style>
 </head>
 <body>
+    <button id="theme1" onclick="theme()">darkmode</button><button id="theme2" onclick="theme()" style="display:none;">lightmode</button>
     <div id="messages">
-        <h2 id="yc">wanna paly as <button id="y" style="color: #0000ff;" onclick="notfirstplayer()">X</button> or <button id="c" style="color: #ff0000;" onclick="firstplayer()">O</button></h2>
+        <h2 id="yc">wanna play as <button id="y" style="color: #0000ff;" onclick="notfirstplayer()">X</button> or <button id="c" style="color: #ff0000;" onclick="firstplayer()">O</button></h2>
         <hr style="border: 1px solid #38583a; width: 200px; margin: 10px auto;">
         <h2 id="yx" style="display:block;">you're playing as <p style="color: #0000ff;">X</p> [first player]</h2>
         <h2 id="yo" style="display:none;">you're playing as <p style="color: #ff0000;">O</p> [seconed player]</h2><br>
@@ -117,7 +132,6 @@
         <h2 id="draw" style="color: #000000; display:none;">draw</h2>
         <button id="restart" onclick="restart()" style="display:none;">restart</button>
     </div>
-    <button id="restart" onclick="restart()" style="display:none;">restart</button>
     <table id="gameboard">
         <tr>
             <td><button onclick="corner1()" id="00"></button><p id="X00">O</p><p id="O00">X</p></td>
@@ -135,11 +149,12 @@
             <td><button onclick="corner4()" id="22"></button><p id="X22">O</p><p id="O22">X</p></td> 
         </tr>
     </table>
-    <table id="info"><tr><td><p>you</p></td><td><p>computer</p></td></tr><tr><td><p id="player">0</p></td><td><p id="computer">0</p></td></tr></table>
+    <table id="info"><tr><td><p>you</p></td><td><p>A I</p></td></tr><tr><td><p id="player">0</p></td><td><p id="computer">0</p></td></tr></table>
     <script>
         let count = 0;
         let player = 0;
         let computer = 0;
+        let dark = false;
         let victory = false;
         let first = false;
         let edge1x = false;
@@ -160,6 +175,39 @@
         let corner3o = false;
         let corner4o = false;
         let centero = false;
+        function theme() {
+            if(!dark){
+                dark = true;
+                document.body.style.backgroundColor = "#333";
+                document.body.style.color = "#fff";
+                document.getElementById("draw").style.color = "#fff"
+                document.getElementById("info").style.color = "#fff";
+                document.getElementById("info").style.borderColor = "#fff";
+                document.querySelectorAll("#info td").forEach(td => {
+                    td.style.borderColor = "#fff";
+                });
+                document.querySelectorAll("#gameboard td").forEach(td => {
+                    td.style.borderColor = "#bebcae";
+                });
+                document.getElementById("theme1").style.display = "none";
+                document.getElementById("theme2").style.display = "block";
+            }else{
+                dark = false;
+                document.body.style.backgroundColor = "#bebcae";
+                document.body.style.color = "#000";
+                document.getElementById("draw").style.color = "#000";
+                document.getElementById("info").style.borderColor = "#000";
+                document.getElementById("info").style.color = "#000";
+                document.querySelectorAll("#info td").forEach(td => {
+                    td.style.borderColor = "#000";
+                });
+                document.querySelectorAll("#gameboard td").forEach(td => {
+                    td.style.borderColor = "#333";
+                });
+                document.getElementById("theme1").style.display = "block";
+                document.getElementById("theme2").style.display = "none";
+            }
+        }
         function corner1() {
             document.getElementById("00").style.display="none";
             count++;
