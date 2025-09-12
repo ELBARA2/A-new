@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #bebcae;
+            background-color: #b6b6b6;
             margin: 0;
             padding: 20px;
             text-align: center;
@@ -73,10 +73,37 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        #theme1, #theme2 {
+        #theme1 {
             position: fixed;
             top: 20px;            
             left: 20px;
+            z-index: 1000;
+            background-color: #000000;
+            color: #fff;
+            font-size: 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 10px;
+        }
+        #theme2 {
+            position: fixed;
+            top: 20px;            
+            left: 20px;
+            z-index: 1000;
+            background-color: #fff;
+            color: #000;
+            font-size: 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 10px;}
+        #langa {
+            position: fixed;
+            top: 20px;            
+            right: 20px;
             z-index: 1000;
             background-color: #000000;
             color: #fff;
@@ -120,6 +147,7 @@
 </head>
 <body>
     <button id="theme1" onclick="theme()">darkmode</button><button id="theme2" onclick="theme()" style="display:none;">lightmode</button>
+    <button id="langa" onclick="langa()">ع</button>
     <div id="messages">
         <h2 id="yc">wanna play as <button id="y" style="color: #0000ff;" onclick="notfirstplayer()">X</button> or <button id="c" style="color: #ff0000;" onclick="firstplayer()">O</button></h2>
         <hr style="border: 1px solid #38583a; width: 200px; margin: 10px auto;">
@@ -155,6 +183,7 @@
         let player = 0;
         let computer = 0;
         let dark = false;
+        let langauge = false;
         let victory = false;
         let first = false;
         let edge1x = false;
@@ -191,6 +220,8 @@
                 });
                 document.getElementById("theme1").style.display = "none";
                 document.getElementById("theme2").style.display = "block";
+                document.getElementById("langa").style.backgroundColor = "#fff";
+                document.getElementById("langa").style.color = "#000";
             }else{
                 dark = false;
                 document.body.style.backgroundColor = "#b6b6b6";
@@ -206,6 +237,39 @@
                 });
                 document.getElementById("theme1").style.display = "block";
                 document.getElementById("theme2").style.display = "none";
+                document.getElementById("langa").style.backgroundColor = "#000";
+                document.getElementById("langa").style.color = "#fff";
+            }
+        }
+        function langa() {
+            if(!langauge) {
+                langauge = true;
+                document.getElementById("theme1").innerHTML="الوضع الليلي";
+                document.getElementById("theme2").innerHTML="الوضع النهاري";
+                document.getElementById("langa").innerHTML="EN";    
+                document.getElementById("yc").innerHTML='<button id="c" style="color: #ff0000;" onclick="firstplayer()">O</button> تريد أن تلعب كـ<button id="y" style="color: #0000ff;" onclick="notfirstplayer()">X</button> أو ';
+                document.getElementById("yx").innerHTML='أنت تلعب كـ<p style="color: #0000ff;">X</p> [اللاعب الأول]';
+                document.getElementById("yo").innerHTML='أنت تلعب كـ<p style="color: #ff0000;">O</p> [اللاعب الثاني]';
+                document.getElementById("c'win'o").innerHTML="الكمبيوتر فاز";
+                document.getElementById("c'win'x").innerHTML="الكمبيوتر فاز";
+                document.getElementById("y'win'o").innerHTML="أنت فزت";
+                document.getElementById("y'win'x").innerHTML="أنت فزت";
+                document.getElementById("draw").innerHTML="تعادل";
+                document.getElementById("restart").innerHTML="إعادة";
+            } else {
+                langauge = false;
+                document.getElementById("theme1").innerHTML="darkmode";
+                document.getElementById("theme2").innerHTML="lightmode";
+                document.getElementById("langa").innerHTML="ع";
+                document.getElementById("yc").innerHTML='wanna play as <button id="y" style="color: #0000ff;" onclick="notfirstplayer()">X</button> or <button id="c" style="color: #ff0000;" onclick="firstplayer()">O</button>';
+                document.getElementById("yx").innerHTML='you\'re playing as <p style="color: #0000ff;">X</p> [first player]';
+                document.getElementById("yo").innerHTML='you\'re playing as <p style="color: #ff0000;">O</p> [seconed player]';
+                document.getElementById("c'win'o").innerHTML="computer win";
+                document.getElementById("c'win'x").innerHTML="computer win";
+                document.getElementById("y'win'o").innerHTML="you win";
+                document.getElementById("y'win'x").innerHTML="you win";
+                document.getElementById("draw").innerHTML="draw";
+                document.getElementById("restart").innerHTML="restart";
             }
         }
         function corner1() {
