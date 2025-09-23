@@ -7,112 +7,97 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #b6b6b6;
-            margin: 0;
-            padding: 20px;
             text-align: center;
         }
-        #gameboard {
-            margin: 50px auto;
-            border-spacing: 0;
+        #theme1, #theme2, #langa {
+            position: fixed;
+            top: 20px;            
+            left: 20px;
+            z-index: 1000;
+            background-color: #000000;
+            color: #fff;
+            font-size: 20px;
+            border-radius: 8px;
+            border: none;
         }
-        #gameboard td {
-            width: 100px;
+        #langa {
+            left: 130px;
+        }
+        #theme2 {
+            background-color: #fff;
+            color: #000;
+        }
+        #yc button {
+            background-color: #3a30301f;
+            border: none;
+            border-radius: 25%;
+            font-size: 25px;
+        }
+        #yo p, #yx p {
+            display: inline;
+        }
+        #messages {
+            border-radius: 20%;
+            width: 250px;
             height: 100px;
+            background-color: #ffffffce;
             text-align: center;
-            vertical-align: middle;
-            font-size: 60px;
-            font-weight: bold;
-            cursor: pointer;
-            position: relative;
+            position: fixed;
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
         }
-        #gameboard tr:not(:last-child) td {
-            border-bottom: 5px solid #333;
-        }
-        #gameboard td:not(:last-child) {
-            border-right: 5px solid #333;
-        }
-        #gameboard button {
+        #overly {
+            position: fixed;
+            top: 0px;
+            left: 0px;
             width: 100%;
             height: 100%;
-            font-size: 60px;
+            background-color: #000000aa;
+            display: none;
+        }
+        #restart {
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #000000;
+            color: #fff;
+            font-size: 20px;
+            border-radius: 8px;
             border: none;
-            background: transparent;
-            cursor: pointer;
+        }
+        #gameboard {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+        }
+        #gameboard button {
+            width: 90px;
+            height: 90px;
+            background-color: #00000000;
+            border: none;
         }
         #gameboard p {
             display: none;
             margin: 0;
-            font-size: 60px;
-            line-height: 100px;
+            font-size: 50px;
         }
-        #messages {
-            text-align: center;
-            margin-top: 20px;
+        #X00, #X01, #X02, #X10, #X11, #X12, #X20, #X21, #X22{
+            color: #ff0000;
         }
-        #messages h2 {
-            margin: 10px 0;
+        #O00, #O01, #O02, #O10, #O11, #O12, #O20, #O21, #O22{
+            color: #0000ff;
         }
-        #restart {
-            display: none;
-            margin: 20px auto 0;
-            background-color: #000;
-            color: #fff;
-            width: 120px;
-            height: 50px;
-            font-size: 20px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
+        #e1, #c2, #e3 {
+            border-bottom: 5px solid #333;
+            border-left: 5px solid #333;
+            width: 100px;
+            height: 100px;
         }
-        #y, #c {
-            background-color: #00000031;
-            font-size: 20px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        #theme1 {
-            position: fixed;
-            top: 20px;            
-            left: 20px;
-            z-index: 1000;
-            background-color: #000000;
-            color: #fff;
-            font-size: 20px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-left: 10px;
-        }
-        #theme2 {
-            position: fixed;
-            top: 20px;            
-            left: 20px;
-            z-index: 1000;
-            background-color: #fff;
-            color: #000;
-            font-size: 20px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-left: 10px;}
-        #langa {
-            position: fixed;
-            top: 20px;            
-            right: 20px;
-            z-index: 1000;
-            background-color: #000000;
-            color: #fff;
-            font-size: 20px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-left: 10px;
+        #e2, #c3, #e4 {
+            border-top: 5px solid #333;
+            border-right: 5px solid #333;
+            width: 100px;
+            height: 100px;
         }
         #info {
             border: 2px solid #000;
@@ -130,54 +115,41 @@
             font-size: 20px;
             margin: 5px 0;
         }
-        #X00, #X01, #X02, #X10, #X11, #X12, #X20, #X21, #X22{
-            color: #ff0000;
-        }
-        #O00, #O01, #O02, #O10, #O11, #O12, #O20, #O21, #O22{
-            color: #0000ff;
-        }
-        #yx p, #yo p {
-            display: inline;
-        }
-        #yc p {
-            display: inline;
-            margin: 0;
-        }
     </style>
 </head>
 <body>
     <button id="theme1" onclick="theme()">darkmode</button><button id="theme2" onclick="theme()" style="display:none;">lightmode</button>
     <button id="langa" onclick="langa()">ع</button>
-    <div id="messages">
-        <h2 id="yc">wanna play as <button id="y" style="color: #0000ff;" onclick="notfirstplayer()">X</button> or <button id="c" style="color: #ff0000;" onclick="firstplayer()">O</button></h2>
-        <hr style="border: 1px solid #38583a; width: 200px; margin: 10px auto;">
-        <h2 id="yx" style="display:block;">you're playing as <p style="color: #0000ff;">X</p> [first player]</h2>
-        <h2 id="yo" style="display:none;">you're playing as <p style="color: #ff0000;">O</p> [seconed player]</h2><br>
-        <h2 id="c'win'o" style="color: #0000ff; display:none;">computer win</h2>
-        <h2 id="c'win'x" style="color: #ff0000; display:none;">computer win</h2>
-        <h2 id="y'win'o" style="color: #0000ff; display:none;">you win</h2>
-        <h2 id="y'win'x" style="color: #ff0000; display:none;">you win</h2>
-        <h2 id="draw" style="color: #000000; display:none;">draw</h2>
-        <button id="restart" onclick="restart()" style="display:none;">restart</button>
+    <h2 id="yc">wanna play as <button id="y" style="color: #0000ff;" onclick="notfirstplayer()">X</button> or <button id="c" style="color: #ff0000;" onclick="firstplayer()">O</button></h2>
+    <hr style="border: 1px solid #38583a; width: 200px; margin: 10px auto;">
+    <h2 id="yx" style="display:block;">you're playing as <p style="color: #0000ff;">X</p> [first player]</h2>
+    <h2 id="yo" style="display:none;">you're playing as <p style="color: #ff0000;">O</p> [seconed player]</h2><br>
+    <div id="overly">  
+        <div id="messages">
+            <h2 id="c'win" style="display: none;">computer win</h2>
+            <h2 id="y'win" style="display: none;">you win</h2>
+            <h2 id="draw" style="display: none;">draw</h2>
+            <button id="restart" onclick="restart()" style="display:none;">restart</button>
+        </div>
     </div>
     <table id="gameboard">
         <tr>
-            <td><button onclick="corner1()" id="00"></button><p id="X00">O</p><p id="O00">X</p></td>
-            <td><button onclick="edge1()" id="01"></button><p id="X01">O</p><p id="O01">X</p></td>
-            <td><button onclick="corner2()" id="02"></button><p id="X02">O</p><p id="O02">X</p></td>
+            <td id="c1"><button onclick="corner1()" id="00"></button><p id="X00">O</p><p id="O00">X</p></td>
+            <td id="e1"><button onclick="edge1()" id="01"></button><p id="X01">O</p><p id="O01">X</p></td>
+            <td id="c2"><button onclick="corner2()" id="02"></button><p id="X02">O</p><p id="O02">X</p></td>
         </tr>
         <tr>
-            <td><button onclick="edge2()" id="10"></button><p id="X10">O</p><p id="O10">X</p></td> 
-            <td><button onclick="center()" id="11"></button><p id="X11">O</p><p id="O11">X</p></td> 
-            <td><button onclick="edge3()" id="12"></button><p id="X12">O</p><p id="O12">X</p></td> 
+            <td id="e2"><button onclick="edge2()" id="10"></button><p id="X10">O</p><p id="O10">X</p></td> 
+            <td id="ce"><button onclick="center()" id="11"></button><p id="X11">O</p><p id="O11">X</p></td> 
+            <td id="e3"><button onclick="edge3()" id="12"></button><p id="X12">O</p><p id="O12">X</p></td> 
         </tr>
         <tr> 
-            <td><button onclick="corner3()" id="20"></button><p id="X20">O</p><p id="O20">X</p></td>
-            <td><button onclick="edge4()" id="21"></button><p id="X21">O</p><p id="O21">X</p></td> 
-            <td><button onclick="corner4()" id="22"></button><p id="X22">O</p><p id="O22">X</p></td> 
+            <td id="c3"><button onclick="corner3()" id="20"></button><p id="X20">O</p><p id="O20">X</p></td>
+            <td id="e4"><button onclick="edge4()" id="21"></button><p id="X21">O</p><p id="O21">X</p></td> 
+            <td id="c4"><button onclick="corner4()" id="22"></button><p id="X22">O</p><p id="O22">X</p></td> 
         </tr>
     </table>
-    <table id="info"><tr><td><p>you</p></td><td><p>A I</p></td></tr><tr><td><p id="player">0</p></td><td><p id="computer">0</p></td></tr></table>
+    <table id="info"><tr><td><p id="yy">you</p></td><td><p id="cc">computer</p></td></tr><tr><td><p id="player">0</p></td><td><p id="computer">0</p></td></tr></table>
     <script>
         let count = 0;
         let player = 0;
@@ -209,7 +181,12 @@
                 dark = true;
                 document.body.style.backgroundColor = "#333";
                 document.body.style.color = "#fff";
-                document.getElementById("draw").style.color = "#fff"
+                document.getElementById("messages").style.backgroundColor = "#000000ce";
+                document.getElementById("draw").style.color = "#fff";
+                document.getElementById("c'win").style.color = "#fff";
+                document.getElementById("y'win").style.color = "#fff";
+                document.getElementById("restart").style.backgroundColor = "#fff";
+                document.getElementById("restart").style.color = "#000";
                 document.getElementById("info").style.color = "#fff";
                 document.getElementById("info").style.borderColor = "#fff";
                 document.querySelectorAll("#info td").forEach(td => {
@@ -226,7 +203,12 @@
                 dark = false;
                 document.body.style.backgroundColor = "#b6b6b6";
                 document.body.style.color = "#000";
+                document.getElementById("messages").style.backgroundColor = "#ffffffce";
+                document.getElementById("c'win").style.color = "#000";
+                document.getElementById("y'win").style.color = "#000";
                 document.getElementById("draw").style.color = "#000";
+                document.getElementById("restart").style.backgroundColor = "#000";
+                document.getElementById("restart").style.color = "#fff";
                 document.getElementById("info").style.borderColor = "#000";
                 document.getElementById("info").style.color = "#000";
                 document.querySelectorAll("#info td").forEach(td => {
@@ -250,12 +232,12 @@
                 document.getElementById("yc").innerHTML='<button id="c" style="color: #ff0000;" onclick="firstplayer()">O</button> تريد أن تلعب كـ<button id="y" style="color: #0000ff;" onclick="notfirstplayer()">X</button> أو ';
                 document.getElementById("yx").innerHTML='أنت تلعب كـ<p style="color: #0000ff;">X</p> [اللاعب الأول]';
                 document.getElementById("yo").innerHTML='أنت تلعب كـ<p style="color: #ff0000;">O</p> [اللاعب الثاني]';
-                document.getElementById("c'win'o").innerHTML="الكمبيوتر فاز";
-                document.getElementById("c'win'x").innerHTML="الكمبيوتر فاز";
-                document.getElementById("y'win'o").innerHTML="أنت فزت";
-                document.getElementById("y'win'x").innerHTML="أنت فزت";
+                document.getElementById("c'win").innerHTML="الكمبيوتر فاز";
+                document.getElementById("y'win").innerHTML="أنت فزت";
                 document.getElementById("draw").innerHTML="تعادل";
                 document.getElementById("restart").innerHTML="إعادة";
+                document.getElementById("yy").innerHTML="اللاعب";
+                document.getElementById("cc").innerHTML="الكمبيوتر";
             } else {
                 langauge = false;
                 document.getElementById("theme1").innerHTML="darkmode";
@@ -264,12 +246,12 @@
                 document.getElementById("yc").innerHTML='wanna play as <button id="y" style="color: #0000ff;" onclick="notfirstplayer()">X</button> or <button id="c" style="color: #ff0000;" onclick="firstplayer()">O</button>';
                 document.getElementById("yx").innerHTML='you\'re playing as <p style="color: #0000ff;">X</p> [first player]';
                 document.getElementById("yo").innerHTML='you\'re playing as <p style="color: #ff0000;">O</p> [seconed player]';
-                document.getElementById("c'win'o").innerHTML="computer win";
-                document.getElementById("c'win'x").innerHTML="computer win";
-                document.getElementById("y'win'o").innerHTML="you win";
-                document.getElementById("y'win'x").innerHTML="you win";
+                document.getElementById("c'win").innerHTML="computer win";
+                document.getElementById("y'win").innerHTML="you win";
                 document.getElementById("draw").innerHTML="draw";
                 document.getElementById("restart").innerHTML="restart";
+                document.getElementById("yy").innerHTML="you";
+                document.getElementById("cc").innerHTML="computer";
             }
         }
         function corner1() {
@@ -415,6 +397,7 @@
         }
         function Victory() {
             if(corner1x&&edge1x&&corner2x||corner3x&&edge4x&&corner4x||edge2x&&centerx&&edge3x||corner1x&&edge2x&&corner3x||corner2x&&edge3x&&corner4x||edge1x&&centerx&&edge4x||corner1x&&centerx&&corner4x||corner2x&&centerx&&corner3x){    
+                document.getElementById("overly").style.display = "block";
                 document.getElementById("restart").style.display="block";
                 document.getElementById("00").style.display="none";
                 document.getElementById("01").style.display="none";
@@ -429,13 +412,14 @@
                 if(!first){ 
                     computer ++; 
                     document.getElementById("computer").innerHTML=computer;
-                    document.getElementById("c'win'x").style.display="block";
+                    document.getElementById("c'win").style.display="block";
                 } else {  
                     player ++;
                     document.getElementById("player").innerHTML=player;  
-                    document.getElementById("y'win'x").style.display="block";
+                    document.getElementById("y'win").style.display="block";
                 }  
             } else if(corner1o&&edge1o&&corner2o||corner3o&&edge4o&&corner4o||edge2o&&centero&&edge3o||corner1o&&edge2o&&corner3o||corner2o&&edge3o&&corner4o||edge1o&&centero&&edge4o||corner1o&&centero&&corner4o||corner2o&&centero&&corner3o){  
+                document.getElementById("overly").style.display = "block";
                 document.getElementById("restart").style.display="block";
                 document.getElementById("00").style.display="none";
                 document.getElementById("01").style.display="none";
@@ -450,16 +434,17 @@
                 if(first){
                     computer ++;
                     document.getElementById("computer").innerHTML=computer;
-                    document.getElementById("c'win'o").style.display="block";
+                    document.getElementById("c'win").style.display="block";
                 }
                 else{
                     player ++;
                     document.getElementById("player").innerHTML=player;
-                    document.getElementById("y'win'o").style.display="block";
+                    document.getElementById("y'win").style.display="block";
                 }
             }else if(count==9){
                 document.getElementById("draw").style.display="block";
                 document.getElementById("restart").style.display="block";
+                document.getElementById("overly").style.display = "block";
             }
             if(first&&count%2==0&&!victory){
                 if((edge1o&&corner2o || edge2o&&corner3o || corner4o&&centero)&&!corner1x&&!corner1o){
@@ -587,12 +572,11 @@
             }
         }
         function restart() {
-            document.getElementById("c'win'x").style.display="none";
-            document.getElementById("c'win'o").style.display="none";
-            document.getElementById("y'win'x").style.display="none";
-            document.getElementById("y'win'o").style.display="none";
+            document.getElementById("c'win").style.display="none";
+            document.getElementById("y'win").style.display="none";
             document.getElementById("draw").style.display="none";
             document.getElementById("restart").style.display="none";
+            document.getElementById("overly").style.display = "none";
             count = 0;
             victory = false;
             edge1x = false;
